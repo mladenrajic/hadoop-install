@@ -1,0 +1,47 @@
+#! /bin/sh
+
+# UPDATE & UPGRADE Ubuntu Server
+sudo apt update -y
+sudo apt upgrade -y
+
+# CLEAR screen
+clear
+
+# MOVE TO HOME DIRECTORY OF CURRENT USER (place of instalation)
+cd ~
+
+# SETUP SSH for pseudodistributed hadoop instalation
+echo "\n\n\n" | ssh-keygen -y
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+# REMOVE STRICT HOST CHECK WHEN hadoop does ssh
+echo "Host *" > ~/.ssh/config
+echo "    StrictHostKeyChecking no" >> ~/.ssh/config
+#sudo chmod 400 ~/.ssh/config
+
+# INSTALL OPEN-JDK-8
+sudo apt install openjdk-8-jdk openjdk-8-jre-headless -y
+java -version
+
+# DOWNLOAD HADOOP 3.2.1
+#rm -r hadoop
+#rm hadoop-3*.gz
+#wget https://downloads.apache.org/hadoop/common/hadoop-3.2.1/hadoop-3.2.1.tar.gz
+#tar xvzf hadoop-3.2.1.tar.gz
+#mv hadoop-3.2.1 hadoop
+#rm hadoop-3.2.1.tar.gz
+
+# SETUP HADOOP_HOME variable to profile and update the path
+echo "" >> .bashrc
+echo "#HADOOP SETUP" >> .bashrc
+echo "export HADOOP_HOME=\"$PWD/hadoop\"" >> .bashrc
+echo 'export PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin' >> .bashrc
+echo "" >> .bashrc
+
+# ADD JAVA_HOME path to hadoop-env.sh script
+echo "" >> ~/hadoop/etc/hadoop/hadoop-env.sh
+echo "# JAVA_HOME setup" >> ~/hadoop/etc/hadoop/hadoop-env.sh
+echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre" >> ~/hadoop/etc/hadoop/hadoop-env.sh
+
+# DOWNLOAD HIVE 3.1.2
+
