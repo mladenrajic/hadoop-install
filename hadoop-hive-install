@@ -76,3 +76,118 @@ rm hive/lib/guava-19.0.jar
 cp hadoop/share/hadoop/common/lib/guava-27.0-jre.jar hive/lib
 
 
+
+# SETUP CONFIG FILES FOR HADOOP
+cat << EOF_1
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+EOF_1 > hadoop/etc/hadoop/core-site.xml
+
+cat << EOF_2
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+        <description>
+            Default block replication.
+            The actual number of replications can be specified when the file is created.
+            The default is used if replication is not specified in create time.
+        </description>
+    </property>
+    <property>
+        <name>dfs.blocksize</name>
+        <value>134217728</value>
+        <description>
+            Hadoop block size - 128MB.
+        </description>
+    </property>
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///home/$(whoami)/hadoop/namenode</value>
+        <description>
+            Hadoop directory for namenode metadata store.
+        </description>
+    </property>
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///home/$(whoami)/hadoop/datanode</value>
+        <description>
+            Hadoop directory for data node block store.
+        </description>
+    </property>
+</configuration>
+EOF_2 > hadoop/etc/hadoop/hdfs-site.xml
+
+
+
+
+cat << EOF_3
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property> 
+        <name>mapreduce.application.classpath</name>
+        <value>/home/$(whoami)/hadoop/share/hadoop/mapreduce/*,/home/$(whoami)/hadoop/share/hadoop/mapreduce/lib/*,/home/$(whoami)/hadoop/share/hadoop/common/*,/home/$(whoami)/hadoop/share/hadoop/common/lib/*,/home/$(whoami)/hadoop/share/hadoop/yarn/*,/home/$(whoami)/hadoop/share/hadoop/yarn/lib/*,/home/$(whoami)/hadoop/share/hadoop/hdfs/*,/home/$(whoami)/hadoop/share/hadoop/hdfs/lib/*</value>
+    </property>
+</configuration>
+EOF_3 > hadoop/etc/hadoop/mapred-site.xml
+
+
+
+cat << EOF_4
+<?xml version="1.0"?>
+<configuration>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+EOF_4 > hadoop/etc/hadoop/yarn-site.xml
+
+
+
+
+# HIVE CONF SETUP
+cat << EOF_5
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>/user/hive/warehouse</value>
+        <description>HDFS directory where Hive keeps table contents.</description>
+    </property>
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>jdbc:derby:;databaseName=/home/$(whoami)/hive/metastore_db;create=true</value>
+        <description>The JDBC connection URL.</description>
+    </property>
+</configuration>
+EOF_5 > hive/conf/hive-site.xml
+
+
+
+# HADOOP NAMENODE AND DIRECTORY SETUP
+source .hadoop_aliases
+hadoop namenode -format
+start-dfs.sh
+start-yarn.sh
+
+hdfs dfs -mkdir -p /user/$(whoami)
+hdfs dfs -mkdir -p /tmp
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -chmod g+w /tmp
+hdfs dfs -chmod g+w /user/hive/warehouse
+
+schematool -dbType derby -initSchema
