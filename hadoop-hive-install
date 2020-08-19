@@ -78,7 +78,7 @@ cp hadoop/share/hadoop/common/lib/guava-27.0-jre.jar hive/lib
 
 
 # SETUP CONFIG FILES FOR HADOOP
-cat << EOF_1
+echo '
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
@@ -86,10 +86,9 @@ cat << EOF_1
         <name>fs.defaultFS</name>
         <value>hdfs://localhost:9000</value>
     </property>
-</configuration>
-EOF_1 > hadoop/etc/hadoop/core-site.xml
+</configuration>' > hadoop/etc/hadoop/core-site.xml
 
-cat << EOF_2
+echo '
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
     <property>
@@ -122,13 +121,12 @@ cat << EOF_2
             Hadoop directory for data node block store.
         </description>
     </property>
-</configuration>
-EOF_2 > hadoop/etc/hadoop/hdfs-site.xml
+</configuration>' > hadoop/etc/hadoop/hdfs-site.xml
 
 
 
 
-cat << EOF_3
+echo '
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
@@ -140,26 +138,24 @@ cat << EOF_3
         <name>mapreduce.application.classpath</name>
         <value>/home/$(whoami)/hadoop/share/hadoop/mapreduce/*,/home/$(whoami)/hadoop/share/hadoop/mapreduce/lib/*,/home/$(whoami)/hadoop/share/hadoop/common/*,/home/$(whoami)/hadoop/share/hadoop/common/lib/*,/home/$(whoami)/hadoop/share/hadoop/yarn/*,/home/$(whoami)/hadoop/share/hadoop/yarn/lib/*,/home/$(whoami)/hadoop/share/hadoop/hdfs/*,/home/$(whoami)/hadoop/share/hadoop/hdfs/lib/*</value>
     </property>
-</configuration>
-EOF_3 > hadoop/etc/hadoop/mapred-site.xml
+</configuration>' > hadoop/etc/hadoop/mapred-site.xml
 
 
 
-cat << EOF_4
+echo '
 <?xml version="1.0"?>
 <configuration>
     <property>
         <name>yarn.nodemanager.aux-services</name>
         <value>mapreduce_shuffle</value>
     </property>
-</configuration>
-EOF_4 > hadoop/etc/hadoop/yarn-site.xml
+</configuration>' > hadoop/etc/hadoop/yarn-site.xml
 
 
 
 
 # HIVE CONF SETUP
-cat << EOF_5
+echo '
 <?xml version="1.0"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <configuration>
@@ -173,8 +169,7 @@ cat << EOF_5
         <value>jdbc:derby:;databaseName=/home/$(whoami)/hive/metastore_db;create=true</value>
         <description>The JDBC connection URL.</description>
     </property>
-</configuration>
-EOF_5 > hive/conf/hive-site.xml
+</configuration>' > hive/conf/hive-site.xml
 
 
 
