@@ -5,6 +5,6 @@
   
   
 ## Steps
-  1 Run `./hadoop-hive-install` (installs the software)
-  2 Run `source ~/.bashrc` (setup environment variables)
-  3 Run `./hadoop-hive-config` (formats hadoop namenode, creates hive metastore_db, starts hadoop and hive)
+  1. Run `./hadoop-hive-install` (installs the software)
+  2. Run `source ~/.bashrc` (setup environment variables)
+  3. Run `./hadoop-hive-config` (formats hadoop namenode, creates hive metastore_db, starts hadoop and hive)
