@@ -1,4 +1,6 @@
-# Installs hadoop in pseudo-distributed mode and hive
+# Bash scripts for installing hadoop in pseudo-distributed mode and hive wiht derby.db
+
+## Install components
   * Hadoop version 3.2.1
   * Hive version 3.1.2
   * OpenJDK version 8
