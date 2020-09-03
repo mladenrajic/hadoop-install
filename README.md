@@ -1,4 +1,4 @@
-# Installs hadoop in pseudodistributed mode and hive
+# Installs hadoop in pseudo-distributed mode and hive
   * Hadoop version 3.2.1
   * Hive version 3.1.2
   * OpenJDK version 8
