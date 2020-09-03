@@ -11,7 +11,8 @@ clear
 cd ~
 
 # SETUP SSH for pseudodistributed hadoop instalation
-echo "\n\n\n" | ssh-keygen -y
+#echo "\n\n\n" | ssh-keygen -y
+cat /dev/zero | ssh-keygen -q -N ""
 cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
 
 # REMOVE STRICT HOST CHECK WHEN hadoop does ssh
