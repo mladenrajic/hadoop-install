@@ -13,8 +13,8 @@
 
 ## Stopping and Startting hadoop
  * Stop commands
- ** Run `stop-yarn.sh` (stops mapreduce job framework)
- ** Run `stop-dfs.sh` (stops hdfs namenode and datanode)
+  ** Run `stop-yarn.sh` (stops mapreduce job framework)
+  ** Run `stop-dfs.sh` (stops hdfs namenode and datanode)
  * Start commands
- ** Run `start-dfs.sh` (starts hdfs namenode and datanode)
- ** Run `start-yarn.sh` (starts mapreduce job framework)
+  ** Run `start-dfs.sh` (starts hdfs namenode and datanode)
+  ** Run `start-yarn.sh` (starts mapreduce job framework)
