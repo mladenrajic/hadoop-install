@@ -1,4 +1,4 @@
-# Bash scripts for installing hadoop in pseudo-distributed mode and hive
+# Bash scripts for installing hadoop _(pseudo-distributed mode)_ and hive
 
 ## Install components
   * Hadoop version 3.2.1
@@ -13,7 +13,8 @@
   4. Run `source ~/.bashrc` (setup environment variables)
   5. Run `./hadoop-hive-config` (formats hadoop namenode, creates hive metastore_db, starts hadoop and hive)
 
-## Stopping and Startting hadoop
+
+## Stopping and Starting hadoop
  *Stop commands*
  * Run `stop-yarn.sh` (stops mapreduce job framework)
  * Run `stop-dfs.sh` (stops hdfs namenode and datanode)
